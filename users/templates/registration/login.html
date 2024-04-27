@@ -1,0 +1,31 @@
+{% extends 'registration/base_acc.html' %}
+
+{% block content %}
+    <div class="section-hero">
+        <div class="container">
+            <div class="hero">
+                <div class="row d-flex justify-content-center">
+                    <div class="sign-in-form col-4">
+                        <div class="form-title">
+                            <p>Sign in</p>
+                        </div>
+                        <form class="form" method="POST" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                {{ form.username }}
+                                {{ form.password }}
+                                {% comment %}
+                                <input type="login" class="form-control col-12" id="LoginInput" placeholder="Login">
+                                <input type="password" id="PasswordInput" placeholder="Password" class="form-control col-12" aria-describedby="passwordHelpBlock">
+                                {% endcomment %}
+                                <button class="btn btn-login col-4" type="submit" value="login">Login</button>
+                                <input type="hidden" name="next" value="{{ next }}">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

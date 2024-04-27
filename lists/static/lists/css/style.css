@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Roboto:wght@400;500&display=swap');
+
+* {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 100%;
+}
+
+body {
+    height: 100vh;
+
+}
+
+.section_header {
+    background-color: #E8EAFF;
+    border-bottom: 2px solid #0019FF;
+
+}
+
+.navbar {
+    padding: 20px 0;
+}
+
+.navbar-logo {
+    font-family: "Krona One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    text-decoration: none;
+    color: #0019FF;
+}
+
+.navbar-button {
+    font-size: 20px;
+    padding: 10px 17px;
+    margin-right: 10px;
+    background-color: #0019FF;
+    border: 1px solid #0019FF;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s all ease;
+}
+
+.navbar-button:hover{
+    background-color: #0011a8;
+}
+
+.hero {
+    text-align: center;
+    padding-top: 120px;
+}
+
+.sign-in-form{
+    border: 2px solid #0019FF;
+    border-radius: 10px;
+    padding: 24px 24px 57px 24px;
+}
+
+.form>.row {
+    display: flex;
+    justify-content: center;
+}
+
+.form-title>p {
+    font-size: 36px;
+    color: #0011a8;
+}
+
+.form-control {
+    margin-bottom: 30px;
+}
+
+.btn-login {
+    font-size: 16px;
+    color: white;
+    background-color: #0019FF;
+    padding: 10px 0;
+}
+
+.btn-login:hover {
+    color: white;
+    background-color: #0011a8;
+}
+
+.main-menu {
+    border: 2px solid #0019FF;
+    border-top: none;
+    height: 90vh;
+}
+
+.main-menu-btn {
+    font-size: 20px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #0011a8;
+    transition: 0.3s all ease;
+}
+
+.main-menu-btn:hover {
+    background-color: #E8EAFF;
+    color: #000b69;
+}
+
+.main-menu-btn>svg {
+    margin-right: 10px;
+}
+
+.main-menu-btn>span {
+    font-weight: 500;
+
+}
+
+.c-new-btn {
+    border-bottom: 2px solid #0019FF;
+    transition: 0.3s all ease;
+}
+
+.c-new-btn:hover {
+    background-color: #0019FF;
+    color: white;
+
+}
+
+.s-today-btn {
+    margin-bottom: 14px;
+}
+
+.day_list {
+    margin: 0;
+    padding: 0;
+    margin-top: 50px;
+}
+
+.day_list-title {
+    font-size: 16px;
+    color: #0011a8;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    border-bottom: 2px solid #0019FF;
+}
+
+.list-item {
+    border: 1px solid #0019FF;
+    border-radius: 6px;
+    padding: 10px 0;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    color: #0011a8;
+}
+
+.item-name {
+    font-size: 20px;
+}
+
+.main-form {
+    padding-top: 100px;
+}
+
+
+.form-control,
+.form-select {
+    border: 1px solid #0019FF;
+}
+
+.btn {
+    border: 1px solid #0019FF;
+    background-color: #0019FF;
+    color: white;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.btn:hover {
+    border: 1px solid #0019FF;
+}
