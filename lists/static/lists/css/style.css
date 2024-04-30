@@ -48,6 +48,12 @@ body {
     background-color: #0011a8;
 }
 
+.user-info {
+    font-size: 20px;
+    color: #0019FF;
+    text-transform: uppercase;
+}
+
 .hero {
     text-align: center;
     padding-top: 120px;
@@ -177,9 +183,31 @@ body {
     background-color: #0019FF;
     color: white;
     margin-top: 30px;
-    width: 100%;
 }
 
 .btn:hover {
     border: 1px solid #0019FF;
 }
+
+.detail-item p {
+    font-size: 28px;
+}
+
+.delete-btn {
+    background-color: red;
+    border: 1px solid red;
+}
+
+.delete-btn:hover {
+    border: 1px solid red;
+}
+
+.done-btn {
+    background-color: green;
+    border: 1px solid green;
+}
+
+.done-btn:hover {
+    border: 1px solid green;
+}
+

@@ -13,17 +13,17 @@ class ListForm(forms.Form):
         ),
         required=False,
     )
-    start_date = forms.DateField(
-        widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-        required=False,
-    )
-    start_time = forms.TimeField(
-        widget=forms.TimeInput(attrs={"class": "form-control", "type": "time"}),
+    # start_date = forms.DateField(
+    #     widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+    #     required=False,
+    # )
+    start_time = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={"class": "form-control", "type": "datetime"}),
         required=False,
     )
     type_select = forms.NullBooleanField(
         widget=forms.Select(
-            choices={"home": "Home", "work": "Work", "education": "Education"},
+            choices={'home': "Home", 'work': "Work", 'education': "Education"},
             attrs={"class": "form-select"},
         ),
         required=False,

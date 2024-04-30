@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="main-body col-9">
+    <div class="container-fluid">
+        <div class="text-center pt-5 detail">
+            <div class="detail-item row mb-3 text-center">
+                <p class="col-4">
+                    Название:
+                </p>
+                <p class="col-8">
+                    {{ item.task_name }}
+                </p>
+            </div>
+
+{% if item.task_desc %}
+            <div class="detail-item row mb-3">
+                <p class="col-4">
+                    Описание:
+                </p>
+                <p class="col-8">
+                    {{ item.task_desc }}
+                </p>
+            </div>
+{% endif %}
+
+{% if item.start_date %}
+            <div class="detail-item row mb-3">
+                <p class="col-4">
+                    Дата начала:
+                </p>
+                <p class="col-8">
+                    {{ item.start_date }}
+                </p>
+            </div>
+{% endif %}
+
+{% if item.start_time %}
+            <div class="detail-item row mb-3">
+                <p class="col-4">
+                    Время начала:
+                </p>
+                <p class="col-8">
+                    {{ item.start_time }}
+                </p>
+            </div>
+{% endif %}
+
+{% if item.type %}
+            <div class="detail-item row mb-3">
+                <p class="col-4">
+                    Тип:
+                </p>
+                <p class="col-8">
+                    {{ item.type }}
+                </p>
+            </div>
+{% endif %}
+
+            <div class="row d-flex justify-content-between">
+                <div class="col-3">
+                    <a href="#" class="btn btn-default done-btn">Done</a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="btn btn-default">Edit</a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="btn btn-default delete-btn">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
