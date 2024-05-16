@@ -10,17 +10,17 @@
                     Название:
                 </p>
                 <p class="col-8">
-                    {{ item.task_name }}
+                    {{ item.list_name }}
                 </p>
             </div>
 
-{% if item.task_desc %}
+{% if item.list_desc %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Описание:
                 </p>
                 <p class="col-8">
-                    {{ item.task_desc }}
+                    {{ item.list_desc }}
                 </p>
             </div>
 {% endif %}
@@ -53,20 +53,20 @@
                     Тип:
                 </p>
                 <p class="col-8">
-                    {{ item.type }}
+                    {{ item.list_type }}
                 </p>
             </div>
 {% endif %}
 
             <div class="row d-flex justify-content-between">
                 <div class="col-3">
-                    <a href="#" class="btn btn-default done-btn">Done</a>
+                    <a href="{% url 'task_done' id=item.id %}" class="btn btn-default done-btn">Done</a>
                 </div>
                 <div class="col-3">
-                    <a href="#" class="btn btn-default">Edit</a>
+                    <a href="{% url 'list_edit' id=item.id %}" class="btn btn-default">Edit</a>
                 </div>
                 <div class="col-3">
-                    <a href="#" class="btn btn-default delete-btn">Delete</a>
+                    <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
                 </div>
             </div>
         </div>

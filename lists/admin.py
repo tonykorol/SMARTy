@@ -1,3 +1,5 @@
 from django.contrib import admin
+from lists.models import ListModel
 
-# Register your models here.
+
+admin.site.register(ListModel)

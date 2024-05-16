@@ -1,48 +1,26 @@
-from random import randint
-
+import datetime
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from .forms import ListForm
-from datetime import datetime
-
-
-LISTS_DATA = [
-    {
-        "pk": 1,
-        "task_name": "Сходить в магазин",
-        "task_desc": "Купить хлеб, молоко, пивас",
-        "start_time": datetime(2024, 5, 1, 23, 00),
-        "type": "Home",
-    },
-    {
-        "pk": 2,
-        "task_name": "Созвон с заказчиком",
-        "task_desc": "В 12:00 в вайбере",
-        "start_time": datetime(2024, 5, 1, 12, 00),
-        "type": "Work",
-    },
-    {
-        "pk": 3,
-        "task_name": "Сделать домашку",
-        "task_desc": "Написать крутую прогу",
-        "start_time": None,
-        "type": "Education",
-    },
-    {
-        "pk": 4,
-        "task_name": "Сделать дичь",
-        "task_desc": "Написать крутую прогу",
-        "start_time": datetime(2024, 4, 29, 12, 00),
-        "type": "Work",
-    },
-]
-
-DATES_DATA = [datetime(2024, 4, 29, 12, 00), datetime(2024, 5, 1, 23, 00)]
+from django.shortcuts import render, redirect, get_object_or_404
+from lists.forms import ListForm
+from lists.models import ListModel
+from lists.additions import *
 
 
 @login_required
 def home(request):
-    context = {"items": LISTS_DATA, "dates": DATES_DATA}
+    user = request.user
+    lists = ListModel.objects.filter(user_id=user, status=False).order_by('start_date', 'start_time')
+    items = get_item_date(lists)
+    context = {'items': items}
+    return render(request, "lists/home.html", context)
+
+
+@login_required
+def today_list(request):
+    user = request.user
+    lists = ListModel.objects.filter(user_id=user, status=False, start_date=datetime.date.today()).order_by('start_time')
+    items = get_item_date(lists)
+    context = {'items': items}
     return render(request, "lists/home.html", context)
 
 
@@ -52,18 +30,45 @@ def new_list(request):
     if request.method == "POST":
         form = ListForm(request.POST)
         if form.is_valid():
-            new_data = {}
-            new_data['pk'] = randint(1, 1100)
-            new_data = {**form.cleaned_data, **new_data}
-            LISTS_DATA.append(new_data)
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
             return redirect("home")
     return render(request, "lists/new_list.html", {"form": form})
 
 
-def list_detail(request, pk):
-    for i in range(len(LISTS_DATA)):
-        for key, value in LISTS_DATA[i].items():
-            if value == pk:
-                context = {'item': LISTS_DATA[i]}
-                return render(request, 'lists/list_detail.html', context)
+@login_required
+def list_detail(request, id):
+    task = get_object_or_404(ListModel, id=id)
+    context = {'item': task}
+    return render(request, 'lists/list_detail.html', context)
 
+
+@login_required
+def list_edit(request, id):
+    task = get_object_or_404(ListModel, id=id)
+    if request.method == "POST":
+        form = ListForm(request.POST, instance=task)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+            return redirect('list_detail', id=task.id)
+    else:
+        form = ListForm(instance=task)
+    return render(request, 'lists/list_edit.html', {'form': form})
+
+
+@login_required
+def task_done(request, id):
+    task = get_object_or_404(ListModel, id=id)
+    task.status = True
+    task.save()
+    return redirect('home')
+
+
+@login_required
+def task_delete(request, id):
+    task = get_object_or_404(ListModel, id=id)
+    task.delete()
+    return redirect('home')

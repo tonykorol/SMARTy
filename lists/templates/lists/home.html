@@ -2,21 +2,27 @@
 
 {% block content %}
 <div class="main-body col-9">
-    {% for date in dates %}
+    {% for date, item in items.items %}
     <div class="row day_list">
-        <div class="row day_list-title">{{ date.date }}</div>
+        <div class="row day_list-title">
+            {% if date is not None %}
+            {{ date }}
+            {% else %}
+            <p></p>
+            {% endif %}
+        </div>
         <div class="list-items">
-            {% for item in items %}
+            {% for obj in item %}
             <div class="row list-item">
-                <a href="{% url 'list_detail' pk=item.pk %}" class="col-7 item item-name"
-                   style="text-decoration: none;">{{ item.task_name }}</a>
+                <a href="{% url 'list_detail' id=obj.id %}" class="col-7 item item-name"
+                   style="text-decoration: none;">{{ obj.list_name }}</a>
                 <div class="col-2 item item-date">
-                    {% if item.start_time %}
-                    {{ item.start_time.time }}
+                    {% if obj.start_time %}
+                    {{ obj.start_time }}
                     {% endif %}
                 </div>
-                <div class="col-2 item item-type align-center">{{ item.type }}</div>
-                <a href="#" class="col-1 item item-btn">
+                <div class="col-2 item item-type align-center">{{ obj.list_type }}</div>
+                <a href="{% url 'task_done' id=obj.id %}" class="col-1 item item-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-journal-check" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
