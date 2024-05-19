@@ -1,33 +1,39 @@
 {% extends 'registration/base_acc.html' %}
 
 {% block content %}
-    <div class="section-hero">
-        <div class="container">
-            <div class="hero">
-                <div class="row d-flex justify-content-center">
-                    <div class="sign-in-form col-4">
-                        <div class="form-title">
-                            <p>Sign up</p>
+<div class="section-hero">
+    <div class="container">
+        <div class="hero">
+            <div class="row d-flex justify-content-center">
+                <div class="sign-in-form col-4">
+                    <div class="form-title">
+                        <p>Sign up</p>
+                    </div>
+                    <form class="form" method="POST" action=".">
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for field in form %}
+                            {% if field.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ field.errors }}
+                            </div>
+                            {% endif %}
+                            {{ field }}
+                            {% endfor %}
+                            <button class="btn btn-login col-4" type="submit" value="login">Create account</button>
+                            <input type="hidden" name="next" value="{{ next }}">
                         </div>
-                        <form class="form" method="POST" action="{% url 'login' %}">
-                            {% csrf_token %}
-                            <div class="row">
-                                {{ form.username }}
-                                {{ form.password }}
-                                <button class="btn btn-login col-4" type="submit" value="login">Login</button>
-                                <input type="hidden" name="next" value="{{ next }}">
-                            </div>
-                        </form>
-                        <div class="row mt-5">
-                            <div class="col-12">
-                                <p>Or </p>
-                                <a href="#">create account</a>
-                            </div>
+                    </form>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <p>Or </p>
+                            <a href="{% url 'login' %}">Log in</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}
