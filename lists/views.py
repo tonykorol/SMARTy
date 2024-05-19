@@ -3,24 +3,25 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from lists.forms import ListForm
 from lists.models import ListModel
+from django.contrib import messages
 from lists.additions import *
 
 
 @login_required
-def home(request):
+def home(request, page_name='My Tasks'):
     user = request.user
     lists = ListModel.objects.filter(user_id=user, status=False).order_by('start_date', 'start_time')
     items = get_item_date(lists)
-    context = {'items': items}
+    context = {'items': items, 'page_name': page_name}
     return render(request, "lists/home.html", context)
 
 
 @login_required
-def today_list(request):
+def today_list(request, page_name='Today Tasks'):
     user = request.user
     lists = ListModel.objects.filter(user_id=user, status=False, start_date=datetime.date.today()).order_by('start_time')
     items = get_item_date(lists)
-    context = {'items': items}
+    context = {'items': items, 'page_name': page_name}
     return render(request, "lists/home.html", context)
 
 
@@ -38,6 +39,15 @@ def new_list(request):
 
 
 @login_required
+def trash(request):
+    user = request.user
+    lists = ListModel.objects.filter(user_id = user, status=True).order_by('start_date', 'start_time')
+    items = get_item_date(lists)
+    context = {'items': items}
+    return render(request, 'lists/trash.html', context)
+
+
+@login_required
 def list_detail(request, id):
     task = get_object_or_404(ListModel, id=id)
     context = {'item': task}
@@ -50,6 +60,11 @@ def list_edit(request, id):
     if request.method == "POST":
         form = ListForm(request.POST, instance=task)
         if form.is_valid():
+            if task.status == True:
+                task.status = False
+                messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been restored")
+            else:
+                messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been edited")
             task = form.save(commit=False)
             task.user = request.user
             task.save()
@@ -64,6 +79,7 @@ def task_done(request, id):
     task = get_object_or_404(ListModel, id=id)
     task.status = True
     task.save()
+    messages.add_message(request, messages.INFO, f"'{task.list_name}' task complete")
     return redirect('home')
 
 
@@ -71,4 +87,5 @@ def task_done(request, id):
 def task_delete(request, id):
     task = get_object_or_404(ListModel, id=id)
     task.delete()
+    messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been deleted")
     return redirect('home')

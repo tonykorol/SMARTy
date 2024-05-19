@@ -2,9 +2,16 @@
 
 {% block content %}
 
-    <div class="main-body col-9">
+<div class="main-body col-9">
     <div class="container-fluid">
         <div class="text-center pt-5 detail">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-secondary" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
             <div class="detail-item row mb-3 text-center">
                 <p class="col-4">
                     Название:
@@ -14,7 +21,7 @@
                 </p>
             </div>
 
-{% if item.list_desc %}
+            {% if item.list_desc %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Описание:
@@ -23,9 +30,9 @@
                     {{ item.list_desc }}
                 </p>
             </div>
-{% endif %}
+            {% endif %}
 
-{% if item.start_date %}
+            {% if item.start_date %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Дата начала:
@@ -34,9 +41,9 @@
                     {{ item.start_date }}
                 </p>
             </div>
-{% endif %}
+            {% endif %}
 
-{% if item.start_time %}
+            {% if item.start_time %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Время начала:
@@ -45,9 +52,9 @@
                     {{ item.start_time }}
                 </p>
             </div>
-{% endif %}
+            {% endif %}
 
-{% if item.type %}
+            {% if item.type %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Тип:
@@ -56,8 +63,8 @@
                     {{ item.list_type }}
                 </p>
             </div>
-{% endif %}
-
+            {% endif %}
+            {% if item.status == False %}
             <div class="row d-flex justify-content-between">
                 <div class="col-3">
                     <a href="{% url 'task_done' id=item.id %}" class="btn btn-default done-btn">Done</a>
@@ -69,6 +76,16 @@
                     <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
                 </div>
             </div>
+            {% else %}
+            <div class="row d-flex justify-content-between">
+                <div class="col-3">
+                    <a href="{% url 'list_edit' id=item.id %}" class="btn btn-default">Edit</a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

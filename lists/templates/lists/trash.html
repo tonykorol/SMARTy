@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-body col-9">
+    <h3 style="color: #003000; margin: 20px 0 20px 90px; font-weight: 100;">Completed tasks</h3>
+    {% for date, item in items.items %}
+    <div class="row day_list">
+        <div class="row day_list-title">
+            {% if date is not None %}
+            {{ date }}
+            {% else %}
+            <p></p>
+            {% endif %}
+        </div>
+        <div class="list-items">
+            {% for obj in item %}
+            <div class="row list-item">
+                <a href="{% url 'list_detail' id=obj.id %}" class="col-7 item item-name"
+                   style="text-decoration: none;">{{ obj.list_name }}</a>
+                <div class="col-2 item item-date">
+                    {% if obj.start_time %}
+                    {{ obj.start_time }}
+                    {% endif %}
+                </div>
+                <div class="col-2 item item-type align-center">{{ obj.list_type }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
