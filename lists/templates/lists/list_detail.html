@@ -54,7 +54,7 @@
             </div>
             {% endif %}
 
-            {% if item.type %}
+            {% if item.list_type %}
             <div class="detail-item row mb-3">
                 <p class="col-4">
                     Тип:
@@ -73,7 +73,10 @@
                     <a href="{% url 'list_edit' id=item.id %}" class="btn btn-default">Edit</a>
                 </div>
                 <div class="col-3">
-                    <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
+                    <button type="button" class="btn btn-default delete-btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Delete
+                    </button>
                 </div>
             </div>
             {% else %}
@@ -82,10 +85,35 @@
                     <a href="{% url 'list_edit' id=item.id %}" class="btn btn-default">Edit</a>
                 </div>
                 <div class="col-3">
-                    <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
+                    <button type="button" class="btn btn-default delete-btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Delete
+                    </button>
                 </div>
             </div>
             {% endif %}
+        </div>
+
+        <!-- Модальное окно -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Безвозвратно удалить задачу '{{ item.list_name }}'</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger" role="alert">
+                            После удаления задачи, восстановить ее будет невозможно!
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                        <a href="{% url 'task_delete' id=item.id %}" class="btn btn-default delete-btn">Delete</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

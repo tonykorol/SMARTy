@@ -133,7 +133,6 @@ body {
 }
 
 .s-today-btn {
-    margin-bottom: 14px;
 }
 
 .day_list {
@@ -209,5 +208,11 @@ body {
 
 .done-btn:hover {
     border: 1px solid green;
+}
+
+.account_info-item {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #0011a8;
 }
 

@@ -1,5 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 from users.forms import LoginForm, UserRegForm
 from django.contrib import messages
 
@@ -28,3 +29,7 @@ def registration(request):
             return redirect("login")
 
     return render(request, "registration/signup.html", {"form": form})
+
+
+def account(request):
+    return render(request, "registration/account.html")

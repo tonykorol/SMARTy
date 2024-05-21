@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-body col-9">
+    <div class="main-form container-fluid">
+        <div class="form-body d-flex justify-content-center">
+            <div class="account col-12">
+                <div class="account_title">
+                    <h3>Your account</h3>
+                </div>
+                <div class="account_info mt-5 d-flex">
+                    <div class="account_info-titles col-3">
+                        <div class="row account_info-item">
+                            <div>Username</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>Email</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>First Name</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>Last Name</div>
+                        </div>
+                    </div>
+                    <div class=" colaccount_info-items col-9">
+                        <div class="row account_info-item">
+                            <div>{{ user.username }}</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>{{ user.email }}</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>{{ user.first_name }}</div>
+                        </div>
+                        <div class="account_info-item">
+                            <div>{{ user.last_name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

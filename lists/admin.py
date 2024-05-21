@@ -1,5 +1,6 @@
 from django.contrib import admin
-from lists.models import ListModel
+from lists.models import TaskModel, TypeModel
 
 
-admin.site.register(ListModel)
+admin.site.register(TaskModel)
+admin.site.register(TypeModel)

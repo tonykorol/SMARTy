@@ -20,18 +20,17 @@
                                     
                                     <div class="form-row row d-flex justify-content-between">
                                         <div class="form-group col-3">
+                                            <p style="margin-bottom: 5px; color: #6c757d;">{{ form.start_date.label }}</p>
                                             {{ form.start_date }}
                                         </div>
                                         <div class="form-group col-3">
+                                            <p style="margin-bottom: 5px; color: #6c757d;">{{ form.start_time.label }}</p>
                                             {{ form.start_time }}
                                         </div>
                                         <div class="form-group col-3">
-<!--                                            <select class="form-select" aria-label="Default select example">-->
-<!--                                                <option value="work">Work</option>-->
-<!--                                                <option value="home">Home</option>-->
-<!--                                                <option value="education">Education</option>-->
-<!--                                              </select>-->
+                                            <p style="margin-bottom: 5px; color: #6c757d;">{{ form.list_type.label }}</p>
                                             {{ form.list_type }}
+                                            <a href="{% url 'new_type' %}?next={{ request.path }}"> or create new </a>
                                         </div>
                                     </div>
                                     <div class="form-row row d-flex justify-content-center">
