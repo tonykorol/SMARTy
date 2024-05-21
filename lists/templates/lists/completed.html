@@ -15,14 +15,14 @@
         <div class="list-items">
             {% for obj in item %}
             <div class="row list-item">
-                <a href="{% url 'list_detail' id=obj.id %}" class="col-7 item item-name"
-                   style="text-decoration: none;">{{ obj.list_name }}</a>
+                <a href="{% url 'task_detail' id=obj.id %}" class="col-7 item item-name"
+                   style="text-decoration: none;">{{ obj.task_name }}</a>
                 <div class="col-2 item item-date">
                     {% if obj.start_time %}
                     {{ obj.start_time }}
                     {% endif %}
                 </div>
-                <div class="col-2 item item-type align-center">{{ obj.list_type }}</div>
+                <div class="col-2 item item-type align-center">{{ obj.task_type }}</div>
             </div>
             {% endfor %}
         </div>

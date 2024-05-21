@@ -1,10 +1,11 @@
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from lists.forms import ListForm, TypeForm
+from lists.forms import TaskForm, TypeForm
 from lists.models import TaskModel, TypeModel
 from django.contrib import messages
 from lists.additions import get_item_date
+from django.conf import settings
 
 
 @login_required
@@ -27,19 +28,19 @@ def today_list(request, page_name='Today Tasks'):
     return render(request, "lists/home.html", context)
 
 
-@login_required
-def new_list(request):
+@login_required(login_url='login')
+def new_task(request):
     user = request.user
     types = TypeModel.objects.filter(user_id=user.id).order_by('type_name')
-    form = ListForm(initial={})
+    form = TaskForm(user=request.user)
     if request.method == "POST":
-        form = ListForm(request.POST)
+        form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.user = user
             task.save()
             return redirect("home")
-    return render(request, "lists/new_list.html", {"form": form, 'types': types})
+    return render(request, "lists/new_task.html", {"form": form, 'types': types})
 
 
 @login_required
@@ -53,34 +54,34 @@ def completed(request):
 
 
 @login_required
-def list_detail(request, id):
+def task_detail(request, id):
     task = get_object_or_404(TaskModel, id=id)
     user = request.user
     types = TypeModel.objects.filter(user_id=user).order_by('type_name')
     context = {'item': task, 'types': types}
-    return render(request, 'lists/list_detail.html', context)
+    return render(request, 'lists/task_detail.html', context)
 
 
 @login_required
-def list_edit(request, id):
+def task_edit(request, id):
     task = get_object_or_404(TaskModel, id=id)
     user = request.user
     types = TypeModel.objects.filter(user_id=user).order_by('type_name')
     if request.method == "POST":
-        form = ListForm(request.POST, instance=task)
+        form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             if task.status == True:
                 task.status = False
-                messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been restored")
+                messages.add_message(request, messages.INFO, f"The '{task.task_name}' task has been restored")
             else:
-                messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been edited")
+                messages.add_message(request, messages.INFO, f"The '{task.task_name}' task has been edited")
             task = form.save(commit=False)
             task.user = user
             task.save()
-            return redirect('list_detail', id=task.id)
+            return redirect('task_detail', id=task.id)
     else:
-        form = ListForm(instance=task)
-    return render(request, 'lists/list_edit.html', {'form': form, 'types': types})
+        form = TaskForm(instance=task)
+    return render(request, 'lists/task_edit.html', {'form': form, 'types': types})
 
 
 @login_required
@@ -88,7 +89,7 @@ def task_done(request, id):
     task = get_object_or_404(TaskModel, id=id)
     task.status = True
     task.save()
-    messages.add_message(request, messages.INFO, f"'{task.list_name}' task complete")
+    messages.add_message(request, messages.INFO, f"'{task.task_name}' task complete")
     return redirect('home')
 
 
@@ -96,15 +97,15 @@ def task_done(request, id):
 def task_delete(request, id):
     task = get_object_or_404(TaskModel, id=id)
     task.delete()
-    messages.add_message(request, messages.INFO, f"The '{task.list_name}' task has been deleted")
+    messages.add_message(request, messages.INFO, f"The '{task.task_name}' task has been deleted")
     return redirect('home')
 
 
 @login_required
 def type_filter(request, t_filter):
     user = request.user
-    list_type = get_object_or_404(TypeModel, type_name=t_filter)
-    lists = TaskModel.objects.filter(user_id=user, status=False, list_type=list_type).order_by('start_date', 'start_time')
+    task_type = get_object_or_404(TypeModel, type_name=t_filter)
+    lists = TaskModel.objects.filter(user_id=user, status=False, task_type=task_type).order_by('start_date', 'start_time')
     types = TypeModel.objects.filter(user_id=user).order_by('type_name')
     items = get_item_date(lists)
     page_name = f"My '{t_filter}' tasks"
