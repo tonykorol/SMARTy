@@ -4,16 +4,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from lists.forms import TaskForm, TypeForm
 from lists.models import TaskModel, TypeModel
 from django.contrib import messages
-from lists.additions import get_item_date
+from lists.additions import get_task_date, get_types
 from django.conf import settings
 
 
 @login_required
 def home(request, page_name='My Tasks'):
     user = request.user
-    lists = TaskModel.objects.filter(user_id=user, status=False).order_by('start_date', 'start_time')
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
-    items = get_item_date(lists)
+    tasks = TaskModel.objects.filter(user_id=user, status=False).order_by('start_date', 'start_time')
+    types = get_types(user)
+    items = get_task_date(tasks)
     context = {'items': items, 'page_name': page_name, 'types': types}
     return render(request, "lists/home.html", context)
 
@@ -21,9 +21,9 @@ def home(request, page_name='My Tasks'):
 @login_required
 def today_list(request, page_name='Today Tasks'):
     user = request.user
-    lists = TaskModel.objects.filter(user_id=user, status=False, start_date=datetime.date.today()).order_by('start_time')
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
-    items = get_item_date(lists)
+    tasks = TaskModel.objects.filter(user_id=user, status=False, start_date=datetime.date.today()).order_by('start_time')
+    types = get_types(user)
+    items = get_task_date(tasks)
     context = {'items': items, 'page_name': page_name, 'types': types}
     return render(request, "lists/home.html", context)
 
@@ -31,7 +31,7 @@ def today_list(request, page_name='Today Tasks'):
 @login_required(login_url='login')
 def new_task(request):
     user = request.user
-    types = TypeModel.objects.filter(user_id=user.id).order_by('type_name')
+    types = get_types(user)
     form = TaskForm(user=request.user)
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -46,9 +46,9 @@ def new_task(request):
 @login_required
 def completed(request):
     user = request.user
-    lists = TaskModel.objects.filter(user_id = user, status=True).order_by('start_date', 'start_time')
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
-    items = get_item_date(lists)
+    tasks = TaskModel.objects.filter(user_id = user, status=True).order_by('start_date', 'start_time')
+    types = get_types(user)
+    items = get_task_date(tasks)
     context = {'items': items, 'types': types}
     return render(request, 'lists/completed.html', context)
 
@@ -57,7 +57,7 @@ def completed(request):
 def task_detail(request, id):
     task = get_object_or_404(TaskModel, id=id)
     user = request.user
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
+    types = get_types(user)
     context = {'item': task, 'types': types}
     return render(request, 'lists/task_detail.html', context)
 
@@ -66,7 +66,7 @@ def task_detail(request, id):
 def task_edit(request, id):
     task = get_object_or_404(TaskModel, id=id)
     user = request.user
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
+    types = get_types(user)
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
@@ -105,9 +105,9 @@ def task_delete(request, id):
 def type_filter(request, t_filter):
     user = request.user
     task_type = get_object_or_404(TypeModel, type_name=t_filter)
-    lists = TaskModel.objects.filter(user_id=user, status=False, task_type=task_type).order_by('start_date', 'start_time')
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
-    items = get_item_date(lists)
+    tasks = TaskModel.objects.filter(user_id=user, status=False, task_type=task_type).order_by('start_date', 'start_time')
+    types = get_types(user)
+    items = get_task_date(tasks)
     page_name = f"My '{t_filter}' tasks"
     context = {'items': items, 'types': types, 'page_name': page_name}
     return render(request, 'lists/home.html', context)
@@ -118,7 +118,7 @@ def new_type(request):
     form = TypeForm()
     previous_page = request.GET.get('next') if request.GET.get('next') is not None else ''
     user = request.user
-    types = TypeModel.objects.filter(user_id=user).order_by('type_name')
+    types = get_types(user)
     if request.method == "POST":
         form = TypeForm(request.POST)
         if form.is_valid():

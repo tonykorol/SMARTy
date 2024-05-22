@@ -1,7 +1,10 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
-from users.forms import LoginForm, UserRegForm
+from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from lists.additions import get_types
+from users.forms import LoginForm, UserRegForm, ChangePasswordForm, UserUpdForm
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib import messages
 
 
@@ -11,6 +14,16 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     pass
+
+
+class ChangePassword(PasswordChangeView):
+    template_name = "registration/change_password.html"
+    success_url = reverse_lazy("password_change_done")
+    form_class = ChangePasswordForm
+
+
+class ChangePasswordDone(PasswordChangeDoneView):
+    template_name = "registration/change_password_done.html"
 
 
 def registration(request):
@@ -32,4 +45,28 @@ def registration(request):
 
 
 def account(request):
-    return render(request, "registration/account.html")
+    user = request.user
+    types = get_types(user)
+    context = {"types": types}
+    return render(request, "registration/account.html", context)
+
+
+def account_edit(request):
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+    form = UserUpdForm()
+    if request.method == "POST":
+        form = UserUpdForm(request.POST)
+        if form.is_valid():
+            user.username = form.cleaned_data["username"]
+            user.email = form.cleaned_data["email"]
+            user.first_name = form.cleaned_data["first_name"]
+            user.last_name = form.cleaned_data["last_name"]
+            upd_fields = []
+            for key, value in form.cleaned_data.items():
+                if form.cleaned_data[key]:
+                    upd_fields.append(key)
+                    user.key = form.cleaned_data[key]
+            user.save(update_fields=upd_fields)
+            return redirect("account")
+    return render(request, "registration/account_edit.html", {"form": form})

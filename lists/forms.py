@@ -2,6 +2,7 @@ from django import forms
 from lists.models import TaskModel, TypeModel
 
 
+
 class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, user=None, **kwargs):
