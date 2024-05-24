@@ -118,13 +118,13 @@ class UserUpdForm(forms.ModelForm):
                     "placeholder": "Enter a new Email or leave blank",
                 }
             ),
-            "first_name": forms.EmailInput(
+            "first_name": forms.TextInput(
                 attrs={
                     "class": "form-control col-12",
                     "placeholder": "Enter a new First Name or leave blank",
                 }
             ),
-            "last_name": forms.EmailInput(
+            "last_name": forms.TextInput(
                 attrs={
                     "class": "form-control col-12",
                     "placeholder": "Enter a new Last Name or leave blank",

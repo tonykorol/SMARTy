@@ -23,6 +23,10 @@ body {
     padding: 20px 0;
 }
 
+.navbar-user {
+    margin-left: 10px;
+}
+
 .navbar-logo {
     font-family: "Krona One", sans-serif;
     font-weight: 400;
@@ -48,10 +52,41 @@ body {
     background-color: #0011a8;
 }
 
+
+
+.navbar-dropdown > li{
+    padding: 0 16px;
+}
+
+.btn-logout {
+    font-size: 14px;
+    width: 100%;
+    padding: 8px 0;
+    background-color: #0019FF;
+    border: 1px solid #0019FF;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s all ease;
+}
+
+.btn-logout:hover{
+    background-color: #0011a8;
+}
+
 .user-info {
     font-size: 20px;
     color: #0019FF;
     text-transform: uppercase;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.user-info > img {
+    border-radius: 50%;
+    width: 50px;
+    transition: 0.3s all ease;
 }
 
 .hero {
@@ -196,12 +231,21 @@ body {
 .delete-btn {
     background-color: red;
     border: 1px solid red;
-
-
 }
 
 .delete-btn:hover {
     border: 1px solid red;
+}
+
+.cancel-btn {
+    background-color: gray;
+    border: 1px solid gray;
+}
+
+.cancel-btn:hover {
+    border: 1px solid gray;
+    background-color: #343a40;;
+    color: white;
 }
 
 .done-btn {

@@ -1,11 +1,13 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from lists.additions import get_types
 from users.forms import LoginForm, UserRegForm, ChangePasswordForm, UserUpdForm
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib import messages
+from django.utils.decorators import method_decorator
 
 
 class UserLoginView(LoginView):
@@ -44,6 +46,7 @@ def registration(request):
     return render(request, "registration/signup.html", {"form": form})
 
 
+@login_required
 def account(request):
     user = request.user
     types = get_types(user)
@@ -51,6 +54,7 @@ def account(request):
     return render(request, "registration/account.html", context)
 
 
+@login_required
 def account_edit(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)

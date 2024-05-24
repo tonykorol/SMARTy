@@ -3,42 +3,44 @@
 {% block content %}
 <div class="main-body col-9">
     <div class="main-form container-fluid">
-        <div class="form-body d-flex justify-content-center">
+        <div class="form-body d-flex ">
             <div class="account col-12 container">
                 <div class="account_title">
-                    <h3>Your account</h3>
+                    <h3>Your account <span style="color: blue;">{{ user.username }}</span></h3>
                 </div>
-                <div class="account_info mt-5 row">
-                    <div class="account_info-items col-12">
-                        <form method="post" class="form">
-                            {% csrf_token %}
-                            <div class="row account_info-item">
-                                <div class="col-3">Username</div>
-                                <div class="col-3">{{ user.username }}</div>
-                                <div class="col-6">{{ form.username }}</div>
-                            </div>
-                            <div class="row account_info-item">
-                                <div class="col-3">Email</div>
-                                <div class="col-3">{{ user.email }}</div>
-                                <div class="col-6">{{ form.email }}</div>
-                            </div>
-                            <div class="row account_info-item">
-                                <div class="col-3">First name</div>
-                                <div class="col-3">{{ user.first_name }}</div>
-                                <div class="col-6">{{ form.first_name }}</div>
-                            </div>
-                            <div class="row account_info-item">
-                                <div class="col-3">Last name</div>
-                                <div class="col-3">{{ user.last_name }}</div>
-                                <div class="col-6">{{ form.last_name }}</div>
-                            </div>
-                            <button class="col-3 account-btn btn btn-default" type="submit">Save</button>
-                        </form>
-                        {{ form.errors }}
-                    </div>
+                <div class="account_info mt-5 row container">
+                    <form method="post" class="form">
+                        {% csrf_token %}
+                        <div class="row account_info-item">
+                            <div class="col-3">Username</div>
+                            <div class="col-3">{{ user.username }}</div>
+                            <div class="col-6">{{ form.username }}</div>
+                        </div>
+                        <div class="row account_info-item">
+                            <div class="col-3">Email</div>
+                            <div class="col-3">{{ user.email }}</div>
+                            <div class="col-6">{{ form.email }}</div>
+                        </div>
+                        <div class="row account_info-item">
+                            <div class="col-3">First name</div>
+                            <div class="col-3">{{ user.first_name }}</div>
+                            <div class="col-6">{{ form.first_name }}</div>
+                        </div>
+                        <div class="row account_info-item">
+                            <div class="col-3">Last name</div>
+                            <div class="col-3">{{ user.last_name }}</div>
+                            <div class="col-6">{{ form.last_name }}</div>
+                        </div>
+                        <div class="row account_info-item">
+                            <a href="{% url 'change_password' %}" class="">Change password</a>
+                        </div>
+                        <button class="col-3 account-btn btn btn-default" type="submit">Save</button>
+                    </form>
+                    {{ form.errors }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
