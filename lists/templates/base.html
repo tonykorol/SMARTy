@@ -30,8 +30,11 @@
                     <div class="dropdown">
                         <a href="#" class="user-info" role="button" id="dropdown_profile"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ user_data.profile.profile_image.url }}" alt="">
-
+                            {% if user_data.profile.profile_image == '' %}
+                            <img src="{% static 'lists/img/profile_img.jpg' %}" alt="">
+                            {% else %}
+                            <img src="{{ user_data.profile.thumb.url }}" alt="">
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu navbar-dropdown" aria-labelledby="dropdown_profile">
                             <li><a class="dropdown-item" href="{% url 'account' %}">{{ user_data.username }}</a></li>

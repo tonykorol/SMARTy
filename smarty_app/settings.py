@@ -129,6 +129,11 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_ROOT = BASE_DIR / 'smarty_app' / "media"
 MEDIA_URL = "media/"
 
+THUMB_ROOT = MEDIA_ROOT / "thumb"
+
+if not THUMB_ROOT.exists():
+    THUMB_ROOT.mkdir(parents=True, exist_ok=True)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
